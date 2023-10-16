@@ -4,28 +4,29 @@ import { db } from '@/firebase'
 import { ref, computed } from 'vue'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
-export const useUser = () => {
-  const user = ref()
-  const userList = ref([])
 
-  const loading = ref({
-    user: false,
-    userList: false
-  })
+const user = ref()
+const userList = ref([])
 
-  const auth = getAuth()
+const loading = ref({
+  user: false,
+  userList: false
+})
 
-  const userRemake = computed(() => {
-    if (user.value) {
-      return {
-        displayName: user.value.displayName,
-        email: user.value.email,
-        photoURL: user.value.photoURL,
-        uid: user.value.uid
-      }
+const userRemake = computed(() => {
+  if (user.value) {
+    return {
+      displayName: user.value.displayName,
+      email: user.value.email,
+      photoURL: user.value.photoURL,
+      uid: user.value.uid
     }
-    return null
-  })
+  }
+  return null
+})
+
+export const useUser = () => {
+  const auth = getAuth()
 
   function googleRegister() {
     const provider = new GoogleAuthProvider()
@@ -83,6 +84,9 @@ export const useUser = () => {
     user,
     loading,
     googleRegister,
-    googleLogout
+    googleLogout,
+    userRemake,
+    getAllUsers,
+    userList
   }
 }

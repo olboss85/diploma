@@ -4,12 +4,13 @@
 
 <template>
   <div class="footer">
-    <h3>@ 2023</h3>
-    <h3>All Rights Reserved © Travel Portal</h3>
+    <!-- <i class="pi pi-whatsapp" style="font-size: 2rem"></i>
+    <i class="pi pi-telegram" style="font-size: 2rem"></i> -->
+    <h4>@ 2023</h4>
+    <h4>All Rights Reserved © Travel Portal</h4>
     <!-- <h3>E-mail: olboss85@gmail.com</h3>
     <h3>Mobile: +77714141416</h3> -->
-    <i class="pi pi-whatsapp" style="font-size: 2rem"></i>
-    <i class="pi pi-telegram" style="font-size: 2rem"></i>
+
    
   </div>
 </template>
@@ -31,7 +32,7 @@
     padding: 10px;
   }
 
-  .footer h3 {
+  .footer h4 {
     margin: 5px;
   }
 </style>

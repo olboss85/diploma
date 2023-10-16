@@ -26,7 +26,7 @@ const responsiveOptions = ref([
 
 <template>
   <div class="background-image">
-    <img src="@/assets/main-view.png" alt="Main View" width="1200px" />
+    <img src="@/assets/main-view.png" alt="Main View" width="100%" />
     <h1>Explore the beauty of Kazakhstan</h1>
     <p>Receive personalized recommendations for countries, hotels, activities and more</p>
   </div>
@@ -92,7 +92,7 @@ const responsiveOptions = ref([
       :responsiveOptions="responsiveOptions"
       :numVisible="5"
       :circular="true"
-      containerStyle="max-width: 640px"
+      containerStyle="max-width: 640px; margin:0 auto;"
       :showItemNavigators="true"
       :showThumbnails="false"
     >
@@ -172,6 +172,7 @@ const responsiveOptions = ref([
 
 .center_row {
   display: flex;
+  justify-content: space-around;
   text-align: center;
 }
 

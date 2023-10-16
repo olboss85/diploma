@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <div>
+    <img src="@/assets/vector.png">
+    </div>
+    <div>
+    <p class="head">Travel Portal</p>
+    </div>
     <div class="card nav">
       <TabMenu v-model:activeIndex="active" :model="items">
         <template #item="{ label, item, props }">
@@ -101,6 +107,10 @@ const items = ref([
   {
     label: 'Travel Reviews',
     route: '/travelReview'
+  },
+  {
+    label: 'Contacts',
+    route: '/contacts'
   }
 ])
 
@@ -160,6 +170,15 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
+
+.head{
+  color: #FFF;
+font-family: Magra;
+font-size: 32px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
 .container {
   display: flex;
   justify-content: space-evenly;
@@ -171,12 +190,15 @@ const handleSubmit = async () => {
 }
 
 .nav {
-  width: 800px;
+  width: 690px;
   padding: 20px;
 }
-.p-tabmenu-nav {
+
+:deep(.p-tabmenu-nav) {
   border: none;
+  justify-content: space-evenly;
 }
+
 
 .btn {
   padding: 10px 35px;
