@@ -22,7 +22,7 @@
       <Button class="btn" v-if="!user" @click="googleRegister"
         >Login</Button
       >
-      <Button class="btn" v-else @click="googleLogout">Login</Button>
+      <Button class="btn" v-else @click="googleLogout">Logout</Button>
     </div>
 
     <div class="sidebar card flex justify-content-center">
@@ -187,5 +187,18 @@ const handleSubmit = async () => {
     0px 2px 3px 0px rgba(13, 96, 111, 0.16),
     0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
+:deep(.p-tabmenu .p-tabmenu-nav) {
+  border: none !important;
+}
+
+:deep(.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link) {
+  color: #5a5858; 
+}
+
+:deep(.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link){
+  border: none;
+}
+
 
 </style>

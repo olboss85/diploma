@@ -178,4 +178,8 @@ const responsiveOptions = ref([
 .card {
   margin-bottom: 40px;
 }
+
+.p-tabmenu .p-tabmenu-nav{
+  border:none;
+}
 </style>
