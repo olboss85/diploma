@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-    <img src="@/assets/vector.png">
+    <img src="@/assets/Vector.png">
     </div>
     <div>
     <p class="head">Travel Portal</p>
