@@ -12,4 +12,10 @@ import NavBar from '@/components/layouts/Navbar.vue'
 </template>
 
 <style scoped>
+body {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 50px; 
+}
+
 </style>

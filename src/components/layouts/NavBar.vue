@@ -212,15 +212,16 @@ line-height: normal;
 
 :deep(.p-tabmenu .p-tabmenu-nav) {
   border: none !important;
+  background-color: transparent;
 }
 
 :deep(.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link) {
-  color: #5a5858; 
+  color: #FFF; 
 }
 
 :deep(.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link){
   border: none;
+  background-color: transparent;
 }
-
 
 </style>
