@@ -8,6 +8,12 @@
 #app {
   width: 1200px;
   margin: 0 auto;
+  position: relative;
 }
 
-
+body {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 50px; 
+  overflow-y: scroll;
+}
