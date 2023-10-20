@@ -68,6 +68,7 @@
       </Sidebar>
     </div>
     <Button class="btn" @click="visible = true">Your review </Button>
+ 
     <Toast />
   </div>
 </template>
@@ -187,7 +188,6 @@ line-height: normal;
   min-width: 1200px;
   max-width: 1200px;
   margin: 0 auto;
-  border: 1px solid #000;
   background:rgba(242, 120, 92, 0.70);
   box-shadow: 0px 4px 4px 0px rgba(13, 96, 111, 0.5);
 }
@@ -226,5 +226,6 @@ line-height: normal;
   border: none;
   background-color: transparent;
 }
+
 
 </style>

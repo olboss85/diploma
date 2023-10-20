@@ -20,7 +20,7 @@
   .footer {
     position: absolute;
     color: #6c757d;
-    width: 1200px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     background-color: rgba(242, 120, 92, 0.70);

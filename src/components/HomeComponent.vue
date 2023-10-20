@@ -1,7 +1,8 @@
 <script setup>
 import Galleria from 'primevue/galleria'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, setBlockTracking } from 'vue'
 import { PhotoService } from '@/service/PhotoService'
+import Button from 'primevue/button'
 
 onMounted(() => {
   PhotoService.getImages().then((data) => (images.value = data))
@@ -22,6 +23,7 @@ const responsiveOptions = ref([
     numVisible: 1
   }
 ])
+
 </script>
 
 <template>
@@ -29,6 +31,7 @@ const responsiveOptions = ref([
     <img src="@/assets/main-view.png" alt="Main View" width="100%" />
     <h1>Explore the beauty of Kazakhstan</h1>
     <p>Receive personalized recommendations for countries, hotels, activities and more</p>
+    <Button class="btn btn2" @click="userSubmit = true">Add trip </Button>
   </div>
 
   <div class="center">
@@ -118,7 +121,7 @@ const responsiveOptions = ref([
 .background-image {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 600px;
   background-image: url(@/assets/main-view.png);
   background-size: cover;
   background-position: center center;
@@ -182,5 +185,18 @@ const responsiveOptions = ref([
 
 .p-tabmenu .p-tabmenu-nav{
   border:none;
+}
+
+.btn {
+  position: absolute;
+  left: 1000px;
+  top: 20px;
+  padding: 10px 35px;
+  gap: 10px;
+  border-radius: 10px;
+  background: #0d606f;
+  box-shadow:
+    0px 2px 3px 0px rgba(13, 96, 111, 0.16),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 </style>

@@ -9,11 +9,10 @@
   width: 1200px;
   margin: 0 auto;
   position: relative;
+  min-height: 100%;
 }
 
 body {
-  position: relative;
-  min-height: 100vh;
   padding-bottom: 50px; 
   overflow-y: scroll;
 }
