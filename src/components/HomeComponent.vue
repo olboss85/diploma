@@ -2,8 +2,8 @@
 import Galleria from 'primevue/galleria'
 import { ref, onMounted } from 'vue'
 import { PhotoService } from '@/service/PhotoService'
-import Button from 'primevue/button'
 import { useUser } from '@/composables/useUser'
+import AddTripButton from '@/components/AddTripButton.vue'
 
 const { user } = useUser()
 
@@ -33,7 +33,7 @@ const responsiveOptions = ref([
     <img src="@/assets/main-view.png" alt="Main View" width="100%" />
     <h1>Explore the beauty of Kazakhstan</h1>
     <p>Receive personalized recommendations for countries, hotels, activities and more</p>
-    <Button v-if="user" class="btn" @click="userSubmit">Add trip</Button>
+    <AddTripButton v-if="user" />
   </div>
 
   <div class="center">
@@ -192,17 +192,5 @@ const responsiveOptions = ref([
   border: none;
 }
 
-.btn {
-  display: block;
-  position: absolute;
-  left: 1000px;
-  top: 20px;
-  padding: 10px 35px;
-  gap: 10px;
-  border-radius: 10px;
-  background: #0d606f;
-  box-shadow:
-    0px 2px 3px 0px rgba(13, 96, 111, 0.16),
-    0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
+
 </style>

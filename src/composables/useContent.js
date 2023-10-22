@@ -9,7 +9,11 @@ export const useContent = () => {
   const content = ref()
   const contentList = ref([])
   const newContent = ref({
-    author: ''
+    author: '',
+    selectedCity: '',
+    date: '',
+    value: '',
+    price: '',
   })
 
   const loading = ref({
@@ -43,8 +47,8 @@ export const useContent = () => {
   }
 
   async function addContent() {
-    const { userToObject } = useUser()
     loading.value.newContent = true
+    const { userToObject } = useUser()
     try {
       if (newContent.value && userToObject.value) {
         newContent.value.author = userToObject.value
