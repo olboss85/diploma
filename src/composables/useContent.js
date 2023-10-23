@@ -10,10 +10,14 @@ export const useContent = () => {
   const contentList = ref([])
   const newContent = ref({
     author: '',
+    travelAgency: '',
     selectedCity: '',
+    selectedCityWritten: '',
     date: '',
     value: '',
     price: '',
+    description: '',
+    typeOfTrip: '',
   })
 
   const loading = ref({

@@ -149,11 +149,11 @@ export const useUser = () => {
 
   // это надо не всем
   // для постоянной связи сервиса с базой данных
-  watch(user.value, async (newValue) => {
-    if (newValue) {
-      await updateUserInDatabase()
-    }
-  })
+  // watch(user.value, async (newValue) => {
+  //   if (newValue) {
+  //     await updateUserInDatabase()
+  //   }
+  // })
 
   return {
     user,
