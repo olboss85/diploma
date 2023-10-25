@@ -45,7 +45,13 @@
           <Calendar v-model="newContent.date" showIcon />
         </div>
         <div class="card flex justify-content-center">
-            <Dropdown v-model="newContent.typeOfTrip" :options="types" optionLabel="name" placeholder="Select type of trip" class="w-full md:w-14rem" />
+          <Dropdown
+            v-model="newContent.typeOfTrip"
+            :options="types"
+            optionLabel="name"
+            placeholder="Select type of trip"
+            class="w-full md:w-14rem"
+          />
         </div>
         <div class="card flex justify-content-center">
           <label for="currency-us" class="font-bold block mb-2"> Price </label>
@@ -58,8 +64,9 @@
           />
         </div>
         <div class="card flex justify-content-center">
-        <Textarea v-model="newContent.description" autoResize rows="5" cols="30" />
-    </div>
+          <Textarea v-model="newContent.description" autoResize rows="5" cols="30" placeholder="Short description" />
+        </div>
+        <FileUpload mode="basic" name="demo[]" url="./upload.php" accept="image/*" :maxFileSize="1000000" @input="onUpload($event)" :chooseLabel="'Add photo'" />
       </template>
       <template #footer>
         <Button label="Add trip" icon="pi pi-check" @click="add" autofocus />
@@ -71,7 +78,8 @@
 
 <script setup>
 import Dialog from 'primevue/dialog'
-import Textarea from 'primevue/textarea';
+import FileUpload from 'primevue/fileupload'
+import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
 import Calendar from 'primevue/calendar'
@@ -80,7 +88,7 @@ import InputNumber from 'primevue/inputnumber'
 import { useContent } from '@/composables/useContent'
 import { ref, computed } from 'vue'
 
-const { newContent, addContent } = useContent()
+const { newContent, addContent, uploadImage } = useContent()
 
 const visible = ref(false)
 const destinations = ref([
@@ -106,16 +114,13 @@ const destinations = ref([
   }
 ])
 
-const types = ref([
-    { name: 'Group' },
-    { name: 'Individual' },
-]);
+const types = ref([{ name: 'Group' }, { name: 'Individual' }])
 
 const isSelectedCityOtherOptions = computed(() => {
-    if (newContent.value.selectedCity) {
-        return newContent.value.selectedCity === 'Add other'
-    }
-    return false
+  if (newContent.value.selectedCity) {
+    return newContent.value.selectedCity === 'Add other'
+  }
+  return false
 })
 
 async function add() {
@@ -134,8 +139,14 @@ function clear() {
     price: '',
     description: '',
     typeOfTrip: '',
+    image: null,
   }
   visible.value = false
+}
+
+async function onUpload(e) {
+  const image = e.target.files[0]
+  await uploadImage(image)
 }
 </script>
 
@@ -153,4 +164,5 @@ function clear() {
     0px 2px 3px 0px rgba(13, 96, 111, 0.16),
     0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
 </style>

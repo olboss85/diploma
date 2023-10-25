@@ -181,13 +181,13 @@ font-weight: 600;
 line-height: normal;
 }
 .container {
+  margin-bottom: 40px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   position: relative;
   min-width: 1200px;
   max-width: 1200px;
-  margin: 0 auto;
   background:rgba(242, 120, 92, 0.70);
   box-shadow: 0px 4px 4px 0px rgba(13, 96, 111, 0.5);
 }

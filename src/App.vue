@@ -14,12 +14,18 @@ const { getUserFromLocalStorage } = useUser()
 </script>
 
 <template>
-  <NavBar />
-  <router-view />
-  <Footer />
+  <div class="wrapper">
+    <NavBar />
+    <router-view />
+    <Footer />
+  </div>
 </template>
 
 <style scoped>
-
-
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 </style>

@@ -19,6 +19,11 @@ const router = createRouter({
       name: 'YourTrip',
       component: () => import('../components/YourTrip.vue'),
     },
+    {
+      path: '/content/:id',
+      name: 'content',
+      component: () => import('../views/TripIdPage.vue'),
+    },
   ]
 })
 

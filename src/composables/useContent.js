@@ -1,7 +1,8 @@
 import { getDocs, addDoc, doc, collection, deleteDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
-// import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
+import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { ref } from 'vue'
+import * as firebase from 'firebase/storage'
 // import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { useUser } from './useUser'
 
@@ -18,6 +19,7 @@ export const useContent = () => {
     price: '',
     description: '',
     typeOfTrip: '',
+    image: null,
   })
 
   const loading = ref({
@@ -74,6 +76,30 @@ export const useContent = () => {
     }
   }
 
+  async function uploadImage(file) {
+    console.log(file)
+    const storage = getStorage()
+    console.log(storage)
+    const storageRef = firebase.ref(storage, 'contents/' + file.name)
+    console.log(storageRef)
+
+    uploadBytes(storageRef, file)
+      .then(() => {
+        console.log('Файл успешно загружен!')
+
+        getDownloadURL(storageRef)
+          .then((downloadURL) => {
+            newContent.value.image = downloadURL
+          })
+          .catch((error) => {
+            console.error('Ошибка получения ссылки на загруженный файл:', error)
+          })
+      })
+      .catch((error) => {
+        console.error('Ошибка загрузки файла:', error)
+      })
+  }
+
   return {
     content,
     contentList,
@@ -82,6 +108,7 @@ export const useContent = () => {
     getAllContent,
     getContentById,
     addContent,
-    deleteContent
+    deleteContent,
+    uploadImage
   }
 }
