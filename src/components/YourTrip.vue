@@ -49,7 +49,7 @@
   .trip {
     padding-inline: 50px;
     text-align: center;
-    width: 365px;
+    width: 355px;
     margin: 20px
   }
   :deep(.p-card:hover) {

@@ -2,7 +2,7 @@
 import { defineProps } from 'vue'
 import Card from 'primevue/card'
 import { formatDate } from '@/service/methods'
-import MoreButton from '@/components/MoreButton.vue'
+import Button from 'primevue/button';
 
 defineProps({
   content: {
@@ -24,7 +24,7 @@ defineProps({
       <p>Date {{ formatDate(content.date) }}</p>
       <p>Price {{ `${parseInt(content.price)} KZT` }}</p>
       <p>Description {{ content.description }}</p>
-      <MoreButton />
+      <Button label="More information" />
     </template>
   </Card>
 </template>
@@ -32,7 +32,7 @@ defineProps({
 <style scoped>
 .trip-image {
   height: 168px;
-  width: 265px;
+  width: 255px;
   border-radius: 6px;
 }
 </style>
