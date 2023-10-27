@@ -40,6 +40,7 @@ export const useUser = () => {
   // войти с помощью окна гугл
   function googleRegister() {
     const provider = new GoogleAuthProvider()
+    provider.setCustomParameters({ prompt: 'select_account' });
 
     signInWithPopup(auth, provider)
       .then(async (userCredential) => {
