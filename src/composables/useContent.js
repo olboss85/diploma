@@ -5,11 +5,16 @@ import { ref } from 'vue'
 import * as firebase from 'firebase/storage'
 // import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { useUser } from './useUser'
+import {createId} from "../service/methods"
 
 export const useContent = () => {
+
+  const { userToObject, user } = useUser()
+
   const content = ref()
   const contentList = ref([])
   const newContent = ref({
+    id: createId(),
     author: '',
     travelAgency: '',
     selectedCity: '',
@@ -20,6 +25,9 @@ export const useContent = () => {
     description: '',
     typeOfTrip: '',
     image: null,
+    likes: 0,
+    dislikes: 0,
+    peopleThatWillTravel: []
   })
 
   const loading = ref({
@@ -54,7 +62,6 @@ export const useContent = () => {
 
   async function addContent() {
     loading.value.newContent = true
-    const { userToObject } = useUser()
     try {
       if (newContent.value && userToObject.value) {
         newContent.value.author = userToObject.value
@@ -75,6 +82,8 @@ export const useContent = () => {
       console.error(error)
     }
   }
+
+  // вот тут функция updateContent
 
   async function uploadImage(file) {
     console.log(file)
@@ -100,6 +109,15 @@ export const useContent = () => {
       })
   }
 
+  function personWantTravel() {
+    if (user.value) {
+      newContent.value.peopleThatWillTravel = new Set(newContent.value.peopleThatWillTravel)
+      newContent.value.peopleThatWillTravel.add(user.value)
+      newContent.value.peopleThatWillTravel = Array.from(newContent.value.peopleThatWillTravel)
+      console.log(newContent.value.peopleThatWillTravel);
+    }
+  }
+
   return {
     content,
     contentList,
@@ -109,6 +127,7 @@ export const useContent = () => {
     getContentById,
     addContent,
     deleteContent,
-    uploadImage
+    uploadImage,
+    personWantTravel
   }
 }

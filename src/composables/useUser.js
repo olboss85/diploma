@@ -8,7 +8,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '@/firebase'
 // import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
 const user = ref()
