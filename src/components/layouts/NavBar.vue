@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div>
-    <img src="@/assets/Vector.png">
+      <img src="@/assets/Vector.png" />
     </div>
     <div>
-    <p class="head">Travel Portal</p>
+      <p class="head">Travel Portal</p>
     </div>
     <div class="card nav">
       <TabMenu v-model:activeIndex="active" :model="items">
@@ -25,57 +25,55 @@
     </div>
 
     <div class="side">
-      <Button class="btn" v-if="!user" @click="googleRegister"
-        >Login</Button
-      >
+      <Button class="btn" v-if="!user" @click="googleRegister">Login</Button>
       <Button class="btn" v-else @click="googleLogout">Logout</Button>
     </div>
 
-    <div class="sidebar card flex justify-content-center">
-      <Sidebar v-model:visible="visible">
-        <h2>Ваш отзыв</h2>
-        <p>
-          Оставьте Ваш отзыв здесь, или напишите вопрос к нам, и мы свяжемся с Вами в ближайшее
-          время!
-        </p>
+    <Button class="btn" @click="visible = true">Your review </Button>
 
-        <div class="in flex flex-column gap-2">
-          <label for="username">Ваше имя</label>
+    <div class="sidebar card flex justify-content-center">
+      <Dialog v-model:visible="visible" modal header="Add your review" :style="{ width: '316px' }">
+        <div class="modal_window flex flex-column gap-2">
           <InputText
             id="username"
             v-model="value"
             aria-describedby="username-help"
+            placeholder="Your name"
             @input="validateInput"
           />
-          <small id="username-help">Введите Ваше имя</small>
         </div>
-        <div class="in flex-auto">
-          <label for="phone">Номер телефона</label>
+        <div class="modal_window flex-auto">
           <InputMask
             v-model="value2"
             date="phone"
             mask="+7(999) 999-9999"
             placeholder="+7(705) 111-1234"
           />
-          <small id="username-help">Введите телефон</small>
         </div>
-        <div class="in flex flex-column gap-2">
-          <label for="text">Отзыв или вопрос</label>
-          <InputText id="comment" v-model="comment" />
-          <small id="text-help">Напишите Ваш отзыв или вопрос</small>
+        <div class="modal_window flex flex-column gap-2">
+          <Textarea
+            id="comment"
+            v-model="comment"
+            autoResize
+            rows="5"
+            cols="34"
+            placeholder="Your feedback"
+          />
         </div>
-        <Button type="submit" label="Отправить" @click="handleSubmit" />
-      </Sidebar>
+        <div style="text-align: center">
+          <Button class="btn" type="submit" label="Confirm" @click="handleSubmit" />
+        </div>
+      </Dialog>
     </div>
-    <Button class="btn" @click="visible = true">Your review </Button>
- 
     <Toast />
   </div>
 </template>
 
 <script setup>
 import Button from 'primevue/button'
+import Textarea from 'primevue/textarea'
 import Sidebar from 'primevue/sidebar'
+import Dialog from 'primevue/dialog'
 import InputMask from 'primevue/inputmask'
 import InputText from 'primevue/inputtext'
 import Toast from 'primevue/toast'
@@ -171,14 +169,13 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-
-.head{
-  color: #FFF;
-font-family: Magra;
-font-size: 32px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
+.head {
+  color: #fff;
+  font-family: Magra;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 .container {
   margin-bottom: 40px;
@@ -188,7 +185,7 @@ line-height: normal;
   position: relative;
   min-width: 1200px;
   max-width: 1200px;
-  background:rgba(242, 120, 92, 0.70);
+  background: rgba(242, 120, 92, 0.7);
   box-shadow: 0px 4px 4px 0px rgba(13, 96, 111, 0.5);
 }
 
@@ -201,7 +198,6 @@ line-height: normal;
   border: none;
   justify-content: space-evenly;
 }
-
 
 .btn {
   padding: 10px 35px;
@@ -219,13 +215,30 @@ line-height: normal;
 }
 
 :deep(.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link) {
-  color: #FFF; 
+  color: #fff;
 }
 
-:deep(.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link){
+:deep(.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link) {
   border: none;
   background-color: transparent;
 }
 
+.modal_window {
+  margin: 10px 5px;
+  padding: 5px 0;
+}
 
+:deep(.p-inputtext) {
+  width: 304px;
+}
+
+.btn {
+  padding: 10px 35px;
+  gap: 10px;
+  border-radius: 10px;
+  background: #0d606f;
+  box-shadow:
+    0px 2px 3px 0px rgba(13, 96, 111, 0.16),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
 </style>
