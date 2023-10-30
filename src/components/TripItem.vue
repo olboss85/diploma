@@ -37,6 +37,7 @@ defineProps({
 }
 
 .btn {
+  margin-bottom:15px;
   padding: 10px 35px;
   gap: 10px;
   border-radius: 10px;
@@ -44,6 +45,10 @@ defineProps({
   box-shadow:
     0px 2px 3px 0px rgba(13, 96, 111, 0.16),
     0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.p-card-content p {
+  margin:15px 0px;
 }
 
 </style>

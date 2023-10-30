@@ -1,4 +1,4 @@
-import { getDocs, addDoc, doc, collection, deleteDoc } from 'firebase/firestore'
+import { getDocs, addDoc, doc, collection, deleteDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { ref } from 'vue'
@@ -29,6 +29,23 @@ export const useContent = () => {
     peopleThatWillTravel: []
   })
 
+  const editContent = ref({
+    id: createId(),
+    author: '',
+    travelAgency: '',
+    selectedCity: '',
+    selectedCityWritten: '',
+    date: '',
+    value: '',
+    price: '',
+    description: '',
+    typeOfTrip: '',
+    image: null,
+    likes: 0,
+    dislikes: 0,
+    peopleThatWillTravel: []
+  })
+
   const loading = ref({
     content: false,
     contentList: false,
@@ -37,9 +54,16 @@ export const useContent = () => {
 
   async function getAllContent() {
     loading.value.contentList = true
+    contentList.value.length = 0;
     try {
       const querySnapshot = await getDocs(collection(db, 'contents'))
-      contentList.value = querySnapshot.docs.map((doc) => doc.data())
+      querySnapshot.forEach((doc) => {
+        const compressive = {
+          firebaseId: doc.id,
+          ...doc.data()
+        }
+        contentList.value.push(compressive)
+      })
       loading.value.contentList = false
     } catch (error) {
       console.error(error)
@@ -50,7 +74,13 @@ export const useContent = () => {
     loading.value.content = true
     try {
       const querySnapshot = await getDocs(collection(db, 'contents'))
-      content.value = querySnapshot.docs.map((doc) => doc.data()).find((item) => item.id === id)
+      content.value = querySnapshot.docs.map((doc) => {
+        return {
+          firebaseId: doc.id,
+          ...querySnapshot.docs.map((doc2) => doc2.data()).find((item) => item.id === id)
+        }
+      })
+      content.value = content.value[0]
       loading.value.content = false
     } catch (error) {
       console.error(error)
@@ -70,17 +100,15 @@ export const useContent = () => {
     }
   }
 
-  async function deleteContent(id) {
+  async function deleteDocById(firebaseId) {
+    loading.value.content = true
     try {
-      if (content.value) {
-        await deleteDoc(doc(db, 'contents', id))
-      }
+      await deleteDoc(doc(db, 'content', firebaseId))
+      loading.value.content = false
     } catch (error) {
       console.error(error)
     }
   }
-
-  // вот тут функция updateContent
 
   async function uploadImage(file) {
     console.log(file)
@@ -106,19 +134,33 @@ export const useContent = () => {
       })
   }
 
-  function personWantTravel() {
+  // вот тут функция updateContent
+  async function updateContent(firebaseId) {
+    try {
+      console.log(content.value)
+      if (content.value) {
+        await updateDoc(doc(db, 'contents', firebaseId), content.value)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function personWantTravel() {
     let first = true
-    if (user.value) {
-      content.value.peopleThatWillTravel.filter((person) => {
+    if (user.value && content.value?.peopleThatWillTravel) {
+      content.value.peopleThatWillTravel.filter(async (person) => {
         first = false
         if (person.uid !== user.value.uid) {
-          content.value.peopleThatWillTravel.push(person)
-          // updateContent
+          content.value.peopleThatWillTravel.push(user.value)
+          console.log(content.value.firebaseId)
+          await updateContent(content.value.firebaseId)
         }
       })
       if (first) {
         content.value.peopleThatWillTravel.push(user.value)
-        // updateContent
+        console.log(user.value)
+        await updateContent(content.value.firebaseId)
       }
     }
   }
@@ -131,8 +173,10 @@ export const useContent = () => {
     getAllContent,
     getContentById,
     addContent,
-    deleteContent,
+    updateContent,
+    deleteDocById,
     uploadImage,
-    personWantTravel
+    personWantTravel,
+    editContent
   }
 }
