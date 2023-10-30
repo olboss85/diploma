@@ -1,21 +1,4 @@
 <template>
-  <div class="card flex justify-content-center">
-    <div class="card flex justify-content-center">
-      <AvatarGroup>
-        <div v-for="user in users" :key="user.id">
-          <Avatar :image="content.personWantTravel.photoURL" class="mr-2" size="large" shape="circle" />
-          {{ content.personWantTravel.photoURL }}
-          {{ content.personWantTravel.displayName }}
-          {{ content.peopleThatWillTravel.displayName }}
-        </div>
-      </AvatarGroup>
-    </div>
-  </div>
-
-  {{ content }}
-  <!-- <Avatar :image="content.peopleThatWillTravel.photoURL " class="mr-2" size="large" shape="circle" />
-  {{ content.personWantTravel.displayName }} -->
-  
 
   <Skeleton v-if="!content" :width="'400px'">
 
@@ -23,43 +6,48 @@
 
   <Card v-else>
     <template #header>
-      <img :src="content.image" class="trip-image" />
+      <i class="pi pi-times close-icon" @click="closePage"></i>
     </template>
   <template #content>
-    <p>Travel Agency {{ content?.travelAgency }}</p>
-    <p>Destination {{ content?.selectedCityWritten || content?.selectedCity }}</p>
-    <p>Type of trip {{ content?.typeOfTrip?.name }}</p>
-    <p>Date {{ formatDate(content?.date) }}</p>
-    <p>Price {{ `${parseInt(content?.price)} KZT` }}</p>
-    <p>Description {{ content?.description }}</p>
-    {{ content?.likes }}
-    {{ content?.dislikes }}
+    <img :src="content.image" class="trip-image" />
+    <p><strong>Travel Agency:</strong> {{ content?.travelAgency }}</p>
+    <p><strong>Destination:</strong> {{ content.selectedCityWritten || content.selectedCity }}</p>
+      <p><strong>Type of trip:</strong> {{ content.typeOfTrip?.name }}</p>
+      <p><strong>Date:</strong> {{ formatDate(content.date) }}</p>
+      <p><strong>Price:</strong> {{ `${parseInt(content.price)} KZT` }}</p>
+    <p><strong>Description:</strong> {{ content?.description }}</p>
+  </template>
+</Card>
+
+<Card class="tripId">
+  <template #header></template>
+  <template #content>
+    <div class="buttons">
+      <div class="counter-container">{{ likes }}</div>
+      <button v-if="user" class="like-button" @click="toggleLike" :disabled="likes > 0">
+        <i class="pi pi-thumbs-up-fill"></i>
+      </button>
+      <div class="counter-container">{{ dislikes }}</div>
+      <button v-if="user" class="dislike-button" @click="toggleDislike" :disabled="dislikes > 0">
+        <i class="pi pi-thumbs-down-fill"></i>
+      </button>
+    </div>
+
+    <Button class="btn" label="Join" @click="willTravel" />
+    <div class="card flex justify-content-center">
+      <AvatarGroup>
+        <div v-for="person in content?.peopleThatWillTravel" :key="person.uid">
+          <Avatar :image="person.photoURL" class="mr-2" size="large" shape="circle"/>
+        </div>
+      </AvatarGroup>
+    </div>
+
   </template>
 </Card>
 
 
-<Button label="Submit" @click="willTravel" />
 
 
-  <Card class="tripId">
-    <template #title>
-      Простая карта
-      <i class="pi pi-times close-icon" @click="closePage"></i>
-    </template>
-    <template #header></template>
-    <template #content>
-      <div class="buttons">
-        <div class="counter-container">{{ likes }}</div>
-        <button v-if="user" class="like-button" @click="toggleLike" :disabled="likes > 0">
-          <i class="pi pi-thumbs-up-fill"></i>
-        </button>
-        <div class="counter-container">{{ dislikes }}</div>
-        <button v-if="user" class="dislike-button" @click="toggleDislike" :disabled="dislikes > 0">
-          <i class="pi pi-thumbs-down-fill"></i>
-        </button>
-      </div>
-    </template>
-  </Card>
 </template>
 
 <script setup>
@@ -76,7 +64,7 @@ import Button from 'primevue/button';
 
 const router = useRouter();
 const route = useRoute()
-const users = ref([]);
+
 const { user } = useUser();
 const { getContentById, content, personWantTravel } = useContent()
 
@@ -131,7 +119,7 @@ const updateLocalStorage = () => {
 
 <style scoped>
 .close-icon {
-  font-size: 20px;
+  font-size: 30px;
   cursor: pointer;
   color: #333;
 }
@@ -172,4 +160,21 @@ const updateLocalStorage = () => {
   padding: 5px;
   width: 35px;
 }
+
+.p-card{
+  width: 500px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.btn {
+  padding: 10px 35px;
+  gap: 10px;
+  border-radius: 10px;
+  background: #0d606f;
+  box-shadow:
+    0px 2px 3px 0px rgba(13, 96, 111, 0.16),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
 </style>

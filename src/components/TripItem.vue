@@ -18,13 +18,13 @@ defineProps({
         <img :src="content.image" class="trip-image" />
       </template>
     <template #content>
-      <p>Travel Agency {{ content.travelAgency }}</p>
-      <p>Destination {{ content.selectedCityWritten || content.selectedCity }}</p>
-      <p>Type of trip {{ content.typeOfTrip?.name }}</p>
-      <p>Date {{ formatDate(content.date) }}</p>
-      <p>Price {{ `${parseInt(content.price)} KZT` }}</p>
-      <p>Description {{ content.description }}</p>
-      <Button label="More information" />
+
+      <p><strong>Destination:</strong> {{ content.selectedCityWritten || content.selectedCity }}</p>
+      <p><strong>Type of trip:</strong> {{ content.typeOfTrip?.name }}</p>
+      <p><strong>Date:</strong> {{ formatDate(content.date) }}</p>
+      <p><strong>Price:</strong> {{ `${parseInt(content.price)} KZT` }}</p>
+
+      <Button class="btn" label="More information" />
     </template>
   </Card>
 </template>
@@ -35,4 +35,15 @@ defineProps({
   width: 255px;
   border-radius: 6px;
 }
+
+.btn {
+  padding: 10px 35px;
+  gap: 10px;
+  border-radius: 10px;
+  background: #0d606f;
+  box-shadow:
+    0px 2px 3px 0px rgba(13, 96, 111, 0.16),
+    0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
 </style>

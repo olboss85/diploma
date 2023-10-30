@@ -5,10 +5,9 @@ import { ref } from 'vue'
 import * as firebase from 'firebase/storage'
 // import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { useUser } from './useUser'
-import {createId} from "../service/methods"
+import { createId } from '../service/methods'
 
 export const useContent = () => {
-
   const { userToObject, user } = useUser()
 
   const content = ref()
@@ -51,9 +50,7 @@ export const useContent = () => {
     loading.value.content = true
     try {
       const querySnapshot = await getDocs(collection(db, 'contents'))
-      content.value = querySnapshot.docs
-        .map((doc) => doc.data())
-        .find((item) => item.id === id)
+      content.value = querySnapshot.docs.map((doc) => doc.data()).find((item) => item.id === id)
       loading.value.content = false
     } catch (error) {
       console.error(error)
@@ -110,11 +107,19 @@ export const useContent = () => {
   }
 
   function personWantTravel() {
+    let first = true
     if (user.value) {
-      newContent.value.peopleThatWillTravel = new Set(newContent.value.peopleThatWillTravel)
-      newContent.value.peopleThatWillTravel.add(user.value)
-      newContent.value.peopleThatWillTravel = Array.from(newContent.value.peopleThatWillTravel)
-      console.log(newContent.value.peopleThatWillTravel);
+      content.value.peopleThatWillTravel.filter((person) => {
+        first = false
+        if (person.uid !== user.value.uid) {
+          content.value.peopleThatWillTravel.push(person)
+          // updateContent
+        }
+      })
+      if (first) {
+        content.value.peopleThatWillTravel.push(user.value)
+        // updateContent
+      }
     }
   }
 
