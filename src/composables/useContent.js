@@ -71,19 +71,22 @@ export const useContent = () => {
   }
 
   async function getContentById(id) {
-    loading.value.content = true
+    loading.value.content = true;
     try {
-      const querySnapshot = await getDocs(collection(db, 'contents'))
-      content.value = querySnapshot.docs.map((doc) => {
+      const querySnapshot = await getDocs(collection(db, 'contents'));
+      const contentData = querySnapshot.docs.map((doc) => {
         return {
           firebaseId: doc.id,
-          ...querySnapshot.docs.map((doc2) => doc2.data()).find((item) => item.id === id)
-        }
-      })
-      content.value = content.value[0]
-      loading.value.content = false
+          ...doc.data()
+        };
+      });
+      
+      const selectedContent = contentData.find((item) => item.id === id);
+      content.value = selectedContent;
+      
+      loading.value.content = false;
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
@@ -103,7 +106,7 @@ export const useContent = () => {
   async function deleteDocById(firebaseId) {
     loading.value.content = true
     try {
-      await deleteDoc(doc(db, 'content', firebaseId))
+      await deleteDoc(doc(db, 'contents', firebaseId))
       loading.value.content = false
     } catch (error) {
       console.error(error)
@@ -147,24 +150,24 @@ export const useContent = () => {
   }
 
   async function personWantTravel() {
-    let first = true
+    let first = true;
     if (user.value && content.value?.peopleThatWillTravel) {
-      content.value.peopleThatWillTravel.filter(async (person) => {
-        first = false
+      await content.value.peopleThatWillTravel.filter(async (person) => { 
+        first = false;
         if (person.uid !== user.value.uid) {
-          content.value.peopleThatWillTravel.push(user.value)
-          console.log(content.value.firebaseId)
-          await updateContent(content.value.firebaseId)
+          content.value.peopleThatWillTravel.push(user.value);
+          console.log(content.value.firebaseId);
+          await updateContent(content.value.firebaseId);
         }
-      })
+      });
       if (first) {
-        content.value.peopleThatWillTravel.push(user.value)
-        console.log(user.value)
-        await updateContent(content.value.firebaseId)
+        content.value.peopleThatWillTravel.push(user.value);
+        console.log(user.value);
+        await updateContent(content.value.firebaseId);
       }
     }
   }
-
+  
   return {
     content,
     contentList,

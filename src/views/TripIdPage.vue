@@ -22,7 +22,7 @@
 <Card class="tripId">
   <template #header></template>
   <template #content>
-    <div class="buttons">
+    <!-- <div class="buttons">
       <div class="counter-container">{{ likes }}</div>
       <button v-if="user" class="like-button" @click="toggleLike" :disabled="likes > 0">
         <i class="pi pi-thumbs-up-fill"></i>
@@ -31,16 +31,27 @@
       <button v-if="user" class="dislike-button" @click="toggleDislike" :disabled="dislikes > 0">
         <i class="pi pi-thumbs-down-fill"></i>
       </button>
-    </div>
+    </div> -->
 
     <Button class="btn" label="Join" @click="willTravel" />
-    <div class="card flex justify-content-center">
+    <div class="card avatars flex justify-content-center">
       <AvatarGroup>
-        <div v-for="person in content?.peopleThatWillTravel" :key="person.uid">
-          <Avatar :image="person.photoURL" class="mr-2" size="large" shape="circle"/>
-        </div>
+        <Avatar
+          v-for="(person) in content?.peopleThatWillTravel.slice(0, 8)"
+          :key="person.uid"
+          :image="person.photoURL"
+          :size="avatarSize"
+          :shape="avatarShape"
+        />
+        <Avatar
+          v-if="content?.peopleThatWillTravel.length > 8"
+          :label="`+${content?.peopleThatWillTravel.length - 8}`"
+          :shape="avatarShape"
+          :size="avatarSize"
+        />
       </AvatarGroup>
     </div>
+
 
   </template>
 </Card>
@@ -65,56 +76,83 @@ import Button from 'primevue/button';
 const router = useRouter();
 const route = useRoute()
 
+const avatarSize = 'large';
+const avatarShape = 'circle';
+
+
 const { user } = useUser();
-const { getContentById, content, personWantTravel } = useContent()
+const { getContentById, content, personWantTravel, deleteDocById } = useContent()
 
 onMounted(async () => {
+
   await getContentById(route.params.id)
 })
 
+onMounted(async () => {
+  await getContentById(route.params.id);
+
+  if (content.value && content.value.date && content.value.date.seconds) {
+    const endDate = new Date(content.value.date.seconds * 1000); // Преобразуем секунды в миллисекунды
+    const currentDate = new Date();
+
+    if (currentDate > endDate) {
+      console.log('Удаляем объявление:', content.value.firebaseId);
+
+      // Задержка в 5 секунд перед удалением
+      setTimeout(() => {
+        deleteDocById(content.value.firebaseId);
+      }, 5000); // 5000 миллисекунд = 5 секунд
+    }
+  }
+});
+
+const isJoined = ref(false);
 
 const willTravel = () => {
+  if (user.value && content.value && !isJoined.value) {
     personWantTravel();
-
+    isJoined.value = true; 
+  }
 };
 
 const closePage = () => {
   router.go(-1);
 }
 
-const likes = ref(parseInt(localStorage.getItem(`likes_${router.currentRoute.value.params.id}`) || 0));
-const dislikes = ref(parseInt(localStorage.getItem(`dislikes_${router.currentRoute.value.params.id}`) || 0));
+// const likes = ref(parseInt(localStorage.getItem(`likes_${router.currentRoute.value.params.id}`) || 0));
+// const dislikes = ref(parseInt(localStorage.getItem(`dislikes_${router.currentRoute.value.params.id}`) || 0));
 
-const toggleLike = () => {
-  if (likes.value === 0) {
-    likes.value = 1;
-    dislikes.value = 0;
-  } else {
-    likes.value = 0;
-  }
-  updateLocalStorage();
-  content.value.likes += 1
-  content.value.likes > 0 ? content.value.dislikes -= 1 : content.value.dislikes
-  // updateContent(content)
-};
+// const toggleLike = () => {
+//   if (likes.value === 0) {
+//     likes.value = 1;
+//     dislikes.value = 0;
+//   } else {
+//     likes.value = 0;
+//   }
+//   updateLocalStorage();
+//   content.value.likes += 1;
+//   content.value.likes > 0 ? (content.value.dislikes -= 1) : content.value.dislikes;
+//   updateContent(content.value.firebaseId); 
+// };
 
-const toggleDislike = () => {
-  if (dislikes.value === 0) {
-    dislikes.value = 1;
-    likes.value = 0;
-  } else {
-    dislikes.value = 0;
-  }
-  updateLocalStorage();
-  content.value.dislikes += 1
-  content.value.dislikes > 0 ? content.value.likes -= 1 : content.value.dislikes
-  // updateContent(content)
-};
+// const toggleDislike = () => {
+//   if (dislikes.value === 0) {
+//     dislikes.value = 1;
+//     likes.value = 0;
+//   } else {
+//     dislikes.value = 0;
+//   }
+//   updateLocalStorage();
+//   content.value.dislikes += 1;
+//   content.value.dislikes > 0 ? (content.value.likes -= 1) : content.value.dislikes;
+//   updateContent(content.value.firebaseId); 
+// };
 
-const updateLocalStorage = () => {
-  localStorage.setItem(`likes_${router.currentRoute.value.params.id}`, likes.value.toString());
-  localStorage.setItem(`dislikes_${router.currentRoute.value.params.id}`, dislikes.value.toString());
-};
+// const updateLocalStorage = () => {
+//   localStorage.setItem(`likes_${router.currentRoute.value.params.id}`, likes.value.toString());
+//   localStorage.setItem(`dislikes_${router.currentRoute.value.params.id}`, dislikes.value.toString());
+// };
+
 </script>
 
 <style scoped>
@@ -140,8 +178,8 @@ const updateLocalStorage = () => {
   cursor: not-allowed;
 }
 .trip-image {
-  height: 168px;
-  width: 255px;
+  height: 368px;
+  width: 455px;
   border-radius: 6px;
 }
 .buttons {
@@ -168,6 +206,7 @@ const updateLocalStorage = () => {
 }
 
 .btn {
+  margin: 15px 0px;
   padding: 10px 35px;
   gap: 10px;
   border-radius: 10px;
@@ -177,4 +216,30 @@ const updateLocalStorage = () => {
     0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
+.p-avatar-group {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 8px; 
+}
+.p-avatar-group {
+  display: flex;
+  justify-content: center;
+  gap: -10px; /* Регулируйте это значение для наложения аватаров */
+}
+
+.p-avatar {
+  position: relative;
+  z-index: 1;
+  margin-left: -25px; /* Регулируйте это значение для наложения аватаров */
+}
+
+.avatars {
+  width:530px;
+}
+
+.p-card-content p{
+  font-size:16px;
+  margin:10px 0px;
+}
 </style>

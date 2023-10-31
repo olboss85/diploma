@@ -72,7 +72,6 @@
 <script setup>
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
-import Sidebar from 'primevue/sidebar'
 import Dialog from 'primevue/dialog'
 import InputMask from 'primevue/inputmask'
 import InputText from 'primevue/inputtext'
@@ -99,10 +98,10 @@ const items = ref([
     label: 'Find Your Trip',
     route: '/findYourTrip'
   },
-  {
-    label: 'Popular Destination',
-    route: '/popularDestination'
-  },
+  // {
+  //   label: 'Popular Destination',
+  //   route: '/popularDestination'
+  // },
   {
     label: 'Travel Reviews',
     route: '/travelReview'
