@@ -18,7 +18,6 @@ defineProps({
         <img :src="content.image" class="trip-image" />
       </template>
     <template #content>
-
       <p><strong>Destination:</strong> {{ content.selectedCityWritten || content.selectedCity }}</p>
       <p><strong>Type of trip:</strong> {{ content.typeOfTrip?.name }}</p>
       <p><strong>Date:</strong> {{ formatDate(content.date) }}</p>

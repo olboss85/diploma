@@ -107,17 +107,22 @@ onMounted(async () => {
 });
 
 const isJoined = ref(false);
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
 
 const willTravel = () => {
   if (user.value && content.value && !isJoined.value) {
     personWantTravel();
     isJoined.value = true; 
   }
+  toast.add({ severity: 'success', summary: '', detail: 'You already joined', life: 3000 });
 };
 
 const closePage = () => {
   router.go(-1);
 }
+
+
 
 // const likes = ref(parseInt(localStorage.getItem(`likes_${router.currentRoute.value.params.id}`) || 0));
 // const dislikes = ref(parseInt(localStorage.getItem(`dislikes_${router.currentRoute.value.params.id}`) || 0));

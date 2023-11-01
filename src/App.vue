@@ -6,6 +6,7 @@ import NavBar from '@/components/layouts/NavBar.vue';
 import { useUser } from './composables/useUser'
 import { onMounted } from 'vue'
 
+
 onMounted(() => {
   getUserFromLocalStorage()
 })

@@ -3,7 +3,7 @@
     <Button class="btn" label="Show" icon="pi pi-external-link" @click="visible = true"
       >Add trip</Button
     >
-    <Dialog v-model:visible="visible" modal header="Add your trip" :style="{ width: '316px' }">
+    <Dialog v-model:visible="visible" modal header="Add your trip" :style="{ width: '350px', 'text-align': 'center' }">
       <template #default>
         <div class="modal_window card flex flex-column align-items-center gap-3">
           <InputText v-model="newContent.travelAgency" type="text" placeholder="Travel Agency" />
@@ -128,6 +128,9 @@ const isSelectedCityOtherOptions = computed(() => {
 async function add() {
   await addContent()
   visible.value = false
+  setTimeout(function(){
+    window.location.href = '/findYourTrip'
+  }, 2000)
 }
 
 function clear() {
@@ -200,9 +203,6 @@ async function onUpload(e) {
   width:302px;
 }
 
-.p-dialog .p-dialog-footer {
-  text-align: center;
-}
 
 :deep(.p-inputnumber-input){
   width:302px;
@@ -219,6 +219,14 @@ async function onUpload(e) {
 
 :deep(.p-datepicker-trigger){
   background: #0d606f;
+}
+
+:deep(.p-dialog-footer){
+  text-align: center !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 row;
 }
 
 </style>
