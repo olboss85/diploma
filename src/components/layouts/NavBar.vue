@@ -32,7 +32,12 @@
     <Button class="btn" @click="visible = true">Your review </Button>
 
     <div class="sidebar card flex justify-content-center">
-      <Dialog v-model:visible="visible" modal header="Add your review" :style="{ 'width': '316px', 'text-align': 'center' }">
+      <Dialog
+        v-model:visible="visible"
+        modal
+        header="Add your review"
+        :style="{ width: '316px', 'text-align': 'center' }"
+      >
         <div class="modal_window flex flex-column gap-2">
           <InputText
             id="username"
@@ -61,8 +66,8 @@
           />
         </div>
         <div class="modal_window star card flex justify-content-center">
-          <Rating v-model="valueStar" :cancel="false"  />
-      </div>
+          <Rating v-model="valueStar" :cancel="false" />
+        </div>
         <div style="text-align: center">
           <Button class="btn" type="submit" label="Confirm" @click="handleSubmit" />
         </div>
@@ -73,7 +78,7 @@
 </template>
 
 <script setup>
-import Rating from 'primevue/rating';
+import Rating from 'primevue/rating'
 import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 import Dialog from 'primevue/dialog'
@@ -91,7 +96,7 @@ import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
-const valueStar = ref(null);
+const valueStar = ref(null)
 const active = ref(0)
 const items = ref([
   {
@@ -109,7 +114,7 @@ const items = ref([
   {
     label: 'Travel Reviews',
     route: '/travelReview'
-  },
+  }
   // {
   //   label: 'Contacts',
   //   route: '/contacts'
@@ -153,7 +158,7 @@ const handleSubmit = async () => {
         name: value.value,
         phone: value2.value,
         text: comment.value,
-        rating: valueStar.value,
+        rating: valueStar.value
       }
       const docRef = await addDoc(collection(db, 'reviews'), newReview)
       console.log('Review added with ID:', docRef.id)
@@ -232,7 +237,7 @@ const handleSubmit = async () => {
   padding: 5px 0;
 }
 
-.p-rating{
+.p-rating {
   justify-content: center;
 }
 
@@ -250,7 +255,7 @@ const handleSubmit = async () => {
     0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.p-dialog-footer{
+.p-dialog-footer {
   padding-bottom: 15px;
 }
 </style>

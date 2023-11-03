@@ -1,28 +1,25 @@
 <template>
-
-  <Skeleton v-if="!content" :width="'400px'">
-
-  </Skeleton>
+  <Skeleton v-if="!content" :width="'400px'"> </Skeleton>
 
   <Card v-else>
     <template #header>
       <i class="pi pi-times close-icon" @click="closePage"></i>
     </template>
-  <template #content>
-    <img :src="content.image" class="trip-image" />
-    <p><strong>Travel Agency:</strong> {{ content?.travelAgency }}</p>
-    <p><strong>Destination:</strong> {{ content.selectedCityWritten || content.selectedCity }}</p>
+    <template #content>
+      <img :src="content.image" class="trip-image" />
+      <p><strong>Travel Agency:</strong> {{ content?.travelAgency }}</p>
+      <p><strong>Destination:</strong> {{ content.selectedCityWritten || content.selectedCity }}</p>
       <p><strong>Type of trip:</strong> {{ content.typeOfTrip?.name }}</p>
       <p><strong>Date:</strong> {{ formatDate(content.date) }}</p>
       <p><strong>Price:</strong> {{ `${parseInt(content.price)} KZT` }}</p>
-    <p><strong>Description:</strong> {{ content?.description }}</p>
-  </template>
-</Card>
+      <p><strong>Description:</strong> {{ content?.description }}</p>
+    </template>
+  </Card>
 
-<Card class="tripId">
-  <template #header></template>
-  <template #content>
-    <!-- <div class="buttons">
+  <Card class="tripId">
+    <template #header></template>
+    <template #content>
+      <!-- <div class="buttons">
       <div class="counter-container">{{ likes }}</div>
       <button v-if="user" class="like-button" @click="toggleLike" :disabled="likes > 0">
         <i class="pi pi-thumbs-up-fill"></i>
@@ -33,96 +30,86 @@
       </button>
     </div> -->
 
-    <Button class="btn" label="Join" @click="willTravel" />
-    <div class="card avatars flex justify-content-center">
-      <AvatarGroup>
-        <Avatar
-          v-for="(person) in content?.peopleThatWillTravel.slice(0, 8)"
-          :key="person.uid"
-          :image="person.photoURL"
-          :size="avatarSize"
-          :shape="avatarShape"
-        />
-        <Avatar
-          v-if="content?.peopleThatWillTravel.length > 8"
-          :label="`+${content?.peopleThatWillTravel.length - 8}`"
-          :shape="avatarShape"
-          :size="avatarSize"
-        />
-      </AvatarGroup>
-    </div>
-
-
-  </template>
-</Card>
-
-
-
-
+      <Button class="btn" label="Join" @click="willTravel" />
+      <div class="card avatars flex justify-content-center">
+        <AvatarGroup>
+          <Avatar
+            v-for="person in content?.peopleThatWillTravel.slice(0, 8)"
+            :key="person.uid"
+            :image="person.photoURL"
+            :size="avatarSize"
+            :shape="avatarShape"
+          />
+          <Avatar
+            v-if="content?.peopleThatWillTravel.length > 8"
+            :label="`+${content?.peopleThatWillTravel.length - 8}`"
+            :shape="avatarShape"
+            :size="avatarSize"
+          />
+        </AvatarGroup>
+      </div>
+    </template>
+  </Card>
 </template>
 
 <script setup>
-import AvatarGroup from 'primevue/avatargroup'; 
-import Avatar from 'primevue/avatar';
-import { ref, onMounted } from 'vue'; 
-import Card from 'primevue/card';
-import { useRouter, useRoute } from 'vue-router';
-import { useUser } from '../composables/useUser';
-import {useContent} from '../composables/useContent'
+import AvatarGroup from 'primevue/avatargroup'
+import Avatar from 'primevue/avatar'
+import { ref, onMounted } from 'vue'
+import Card from 'primevue/card'
+import { useRouter, useRoute } from 'vue-router'
+import { useUser } from '../composables/useUser'
+import { useContent } from '../composables/useContent'
 import Skeleton from 'primevue/skeleton'
 import { formatDate } from '@/service/methods'
-import Button from 'primevue/button';
+import Button from 'primevue/button'
 
-const router = useRouter();
+const router = useRouter()
 const route = useRoute()
 
-const avatarSize = 'large';
-const avatarShape = 'circle';
+const avatarSize = 'large'
+const avatarShape = 'circle'
 
-
-const { user } = useUser();
+const { user } = useUser()
 const { getContentById, content, personWantTravel, deleteDocById } = useContent()
 
 onMounted(async () => {
-
   await getContentById(route.params.id)
 })
 
 onMounted(async () => {
-  await getContentById(route.params.id);
+  await getContentById(route.params.id)
 
   if (content.value && content.value.date && content.value.date.seconds) {
-    const endDate = new Date(content.value.date.seconds * 1000); // Преобразуем секунды в миллисекунды
-    const currentDate = new Date();
+    const endDate = new Date(content.value.date.seconds * 1000) // Преобразуем секунды в миллисекунды
+    const currentDate = new Date()
 
     if (currentDate > endDate) {
-      console.log('Удаляем объявление:', content.value.firebaseId);
+      console.log('Удаляем объявление:', content.value.firebaseId)
 
       // Задержка в 5 секунд перед удалением
       setTimeout(() => {
-        deleteDocById(content.value.firebaseId);
-      }, 5000); // 5000 миллисекунд = 5 секунд
+        deleteDocById(content.value.firebaseId)
+      }, 5000) // 5000 миллисекунд = 5 секунд
     }
   }
-});
+})
 
-const isJoined = ref(false);
-import { useToast } from "primevue/usetoast";
-const toast = useToast();
+const isJoined = ref(false)
+import { useToast } from 'primevue/usetoast'
+const toast = useToast()
 
 const willTravel = () => {
   if (user.value && content.value && !isJoined.value) {
-    personWantTravel();
-    isJoined.value = true; 
+    personWantTravel()
+    isJoined.value = true
   }
-  toast.add({ severity: 'success', summary: '', detail: 'You already joined', life: 3000 });
-};
-
-const closePage = () => {
-  router.go(-1);
+  toast.add({ severity: 'success', summary: '', detail: 'You already joined', life: 3000 })
 }
 
-
+const closePage = () => {
+  router.go(-1)
+}
 
 // const likes = ref(parseInt(localStorage.getItem(`likes_${router.currentRoute.value.params.id}`) || 0));
 // const dislikes = ref(parseInt(localStorage.getItem(`dislikes_${router.currentRoute.value.params.id}`) || 0));
@@ -137,7 +124,7 @@ const closePage = () => {
 //   updateLocalStorage();
 //   content.value.likes += 1;
 //   content.value.likes > 0 ? (content.value.dislikes -= 1) : content.value.dislikes;
-//   updateContent(content.value.firebaseId); 
+//   updateContent(content.value.firebaseId);
 // };
 
 // const toggleDislike = () => {
@@ -150,14 +137,13 @@ const closePage = () => {
 //   updateLocalStorage();
 //   content.value.dislikes += 1;
 //   content.value.dislikes > 0 ? (content.value.likes -= 1) : content.value.dislikes;
-//   updateContent(content.value.firebaseId); 
+//   updateContent(content.value.firebaseId);
 // };
 
 // const updateLocalStorage = () => {
 //   localStorage.setItem(`likes_${router.currentRoute.value.params.id}`, likes.value.toString());
 //   localStorage.setItem(`dislikes_${router.currentRoute.value.params.id}`, dislikes.value.toString());
 // };
-
 </script>
 
 <style scoped>
@@ -195,7 +181,9 @@ const closePage = () => {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .counter-container {
@@ -204,10 +192,10 @@ const closePage = () => {
   width: 35px;
 }
 
-.p-card{
+.p-card {
   width: 500px;
-    text-align: center;
-    margin: 0 auto;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .btn {
@@ -225,7 +213,7 @@ const closePage = () => {
   display: flex;
   justify-content: start;
   flex-wrap: wrap;
-  gap: 8px; 
+  gap: 8px;
 }
 .p-avatar-group {
   display: flex;
@@ -240,11 +228,11 @@ const closePage = () => {
 }
 
 .avatars {
-  width:530px;
+  width: 530px;
 }
 
-.p-card-content p{
-  font-size:16px;
-  margin:10px 0px;
+.p-card-content p {
+  font-size: 16px;
+  margin: 10px 0px;
 }
 </style>

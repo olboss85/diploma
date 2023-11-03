@@ -191,6 +191,4 @@ const responsiveOptions = ref([
 .p-tabmenu .p-tabmenu-nav {
   border: none;
 }
-
-
 </style>

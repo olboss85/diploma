@@ -8,12 +8,12 @@
 </template>
 
 <script setup>
-import {onMounted } from 'vue'
+import { onMounted } from 'vue'
 import TripItem from '@/components/TripItem.vue'
 import { useRouter } from 'vue-router'
 import { useContent } from '../composables/useContent'
 
-const {getAllContent, contentList} = useContent()
+const { getAllContent, contentList } = useContent()
 
 const router = useRouter()
 
@@ -22,7 +22,7 @@ function goToTripUrl(id) {
 }
 
 onMounted(async () => {
- await getAllContent()
+  await getAllContent()
 })
 </script>
 

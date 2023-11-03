@@ -2,7 +2,7 @@
 import { defineProps } from 'vue'
 import Card from 'primevue/card'
 import { formatDate } from '@/service/methods'
-import Button from 'primevue/button';
+import Button from 'primevue/button'
 
 defineProps({
   content: {
@@ -13,10 +13,10 @@ defineProps({
 </script>
 
 <template>
-    <Card>
-      <template #header>
-        <img :src="content.image" class="trip-image" />
-      </template>
+  <Card>
+    <template #header>
+      <img :src="content.image" class="trip-image" />
+    </template>
     <template #content>
       <p><strong>Destination:</strong> {{ content.selectedCityWritten || content.selectedCity }}</p>
       <p><strong>Type of trip:</strong> {{ content.typeOfTrip?.name }}</p>
@@ -36,7 +36,7 @@ defineProps({
 }
 
 .btn {
-  margin-bottom:15px;
+  margin-bottom: 15px;
   padding: 10px 35px;
   gap: 10px;
   border-radius: 10px;
@@ -47,7 +47,6 @@ defineProps({
 }
 
 .p-card-content p {
-  margin:15px 0px;
+  margin: 15px 0px;
 }
-
 </style>

@@ -3,12 +3,17 @@
     <Button class="btn" label="Show" icon="pi pi-external-link" @click="visible = true"
       >Add trip</Button
     >
-    <Dialog v-model:visible="visible" modal header="Add your trip" :style="{ width: '350px', 'text-align': 'center' }">
+    <Dialog
+      v-model:visible="visible"
+      modal
+      header="Add your trip"
+      :style="{ width: '350px', 'text-align': 'center' }"
+    >
       <template #default>
         <div class="modal_window card flex flex-column align-items-center gap-3">
           <InputText v-model="newContent.travelAgency" type="text" placeholder="Travel Agency" />
         </div>
-        <div class=" modal_window card flex justify-content-center">
+        <div class="modal_window card flex justify-content-center">
           <Dropdown
             v-model="newContent.selectedCity"
             :options="destinations"
@@ -53,7 +58,6 @@
           />
         </div>
         <div class="modal_window card flex justify-content-center">
-      
           <InputNumber
             v-model="newContent.price"
             inputId="currency-us"
@@ -64,10 +68,24 @@
           />
         </div>
         <div class="modal_window card flex justify-content-center">
-          <Textarea v-model="newContent.description" autoResize rows="5" cols="34" placeholder="Short description" />
+          <Textarea
+            v-model="newContent.description"
+            autoResize
+            rows="5"
+            cols="34"
+            placeholder="Short description"
+          />
         </div>
         <div class="modal_window">
-        <FileUpload mode="basic" name="demo[]" url="./upload.php" accept="image/*" :maxFileSize="1000000" @input="onUpload($event)" :chooseLabel="'Add photo'" />
+          <FileUpload
+            mode="basic"
+            name="demo[]"
+            url="./upload.php"
+            accept="image/*"
+            :maxFileSize="1000000"
+            @input="onUpload($event)"
+            :chooseLabel="'Add photo'"
+          />
         </div>
       </template>
       <template #footer>
@@ -128,7 +146,7 @@ const isSelectedCityOtherOptions = computed(() => {
 async function add() {
   await addContent()
   visible.value = false
-  setTimeout(function(){
+  setTimeout(function () {
     window.location.href = '/findYourTrip'
   }, 2000)
 }
@@ -144,7 +162,7 @@ function clear() {
     price: '',
     description: '',
     typeOfTrip: '',
-    image: null,
+    image: null
   }
   visible.value = false
 }
@@ -171,7 +189,7 @@ async function onUpload(e) {
 }
 
 .modal_btn {
-    padding: 10px 35px;
+  padding: 10px 35px;
   gap: 10px;
   border-radius: 10px;
   background: #0d606f;
@@ -194,39 +212,37 @@ async function onUpload(e) {
   text-align: center;
 }
 
-.modal_window{
+.modal_window {
   margin: 10px 5px;
   padding: 5px 0;
 }
 
 .modal_window input {
-  width:302px;
+  width: 302px;
 }
 
-
-:deep(.p-inputnumber-input){
-  width:302px;
+:deep(.p-inputnumber-input) {
+  width: 302px;
 }
 
-:deep(.p-dropdown-trigger){
-  width:164px;
+:deep(.p-dropdown-trigger) {
+  width: 164px;
   justify-content: flex-end;
 }
 
-:deep(.p-calendar){
-  width:302px;
+:deep(.p-calendar) {
+  width: 302px;
 }
 
-:deep(.p-datepicker-trigger){
+:deep(.p-datepicker-trigger) {
   background: #0d606f;
 }
 
-:deep(.p-dialog-footer){
+:deep(.p-dialog-footer) {
   text-align: center !important;
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1 row;
 }
-
 </style>

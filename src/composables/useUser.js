@@ -1,11 +1,4 @@
-import {
-  collection,
-  getDocs,
-  addDoc,
-  getDoc,
-  doc,
-  setDoc
-} from 'firebase/firestore'
+import { collection, getDocs, addDoc, getDoc, doc, setDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 // import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { ref, computed } from 'vue'
@@ -40,7 +33,7 @@ export const useUser = () => {
   // войти с помощью окна гугл
   function googleRegister() {
     const provider = new GoogleAuthProvider()
-    provider.setCustomParameters({ prompt: 'select_account' });
+    provider.setCustomParameters({ prompt: 'select_account' })
 
     signInWithPopup(auth, provider)
       .then(async (userCredential) => {
